@@ -1,61 +1,80 @@
 import github3
 from github3 import login
 
-class github:
-    def __init__(self):
-        print("github init")
 
-    def login(self,id,password):
-        g = github3.login(id,password)
-        return g
+class GHApi:
+    def __init__(self, githubid, password, organizationname):
+        try:
+            self.github=github3.login(githubid,password)
+            self.organizationName = None
+            if type(self.getOrganization(organizationname)) == type(None):
+                print( "There is no organization named:  " + organizationname + "\n Please create in your Github Account!")
+            else:
+                self.organizationName = organizationname
+                self.organization = self.getOrganization(organizationname)
+                self.admin = self.getAdminTeam()
+        except github3.GitHubError:
+            print ("Please check GitHubID and/or GitHubPassword!")
 
-    def createNewProject(self,login,projectName,projectURL,projectDescription):
-        login.create_repo(projectName, projectURL, projectDescription, False, True, True, True, True)
-        #Trello code
+    def createNewProject(self, projectName, projectURL, projectDescription):
+        try:
+            self.github.create_repo(projectName, projectURL, projectDescription, False, True, True, True, True)
+        except github3.GitHubError:
+            print("Please check name of Repository. There is an exist repository named " + projectName)
 
-    def showProjects(self,login):
-        for repo in login.iter_repos():
+    def showProjects(self):
+        for repo in self.github.iter_repos():
             print (repo)
-        #Trello code
 
-    def chooseProject(self,login,projectName):
-        return login.repository(login.user(),projectName)
-        #Trello code
+    def chooseProject(self, projectName):
+        project = self.github.repository(self.github.user(),projectName)
+        if project is None:
+            print ("There is no project named " + projectName + "\nPlease select from these projects:")
+            self.showProjects()
+        return project
 
-    def currentProject(self,project):
+    def currentProject(self, project):
         print (project)
-        #Trello code
 
-    def addMemberToOrganization(self,login,memberID):
-        organization = self.getOrganization(login, "PlanAndCode")
-        admin = self.getAdminTeam(login, organization, "Admin")
-        admin.invite(memberID)
-        for repo in login.iter_repos():
+    def addMemberToOrganization(self, memberID):
+        self.admin.invite(memberID)
+        for repo in self.github.iter_repos():
             repo.add_collaborator(memberID)
 
-    def grantAccessToAllMembers(self,login):
-        organization = self.getOrganization(login, "PlanAndCode")
-        for repo in login.iter_repos():
-            for member in organization.iter_members():
+    def deleteMemberFromOrganization(self, memberID):
+        self.admin.remove_member(memberID)
+        for repo in self.github.iter_repos():
+            repo.remove_collaborator(memberID)
+
+    def grantAccessToAllMembers(self):
+        for repo in self.github.iter_repos():
+            for member in self.organization.iter_members():
                 repo.add_collaborator(member)
 
-    def getOrganization(self,login,organizationName):
-        return login.organization(organizationName)
+    def getOrganization(self,organizationName):
+        return self.github.organization(organizationName)
 
-    def getAdminTeam(self,g,organization,adminteamname):
-        teams = organization.iter_teams();
+    def getAdminTeam(self):
+        teams = self.organization.iter_teams();
         admin = None
         for team in teams:
-            if team.name == adminteamname:
+            if team.name == "Admin":
                 admin = team
+        if admin is None:
+            repo_names=['None']
+            self.organization.create_team("Admin",repo_names,"admin")
         return admin
 
 
-
-    def main(self):
-        github=login("<githubid>","<githubpassword>")
-        project = self.chooseProject(github,"Project")
-        self.currentProject(project)
+def main():
+    deneme = GHApi("<githubid>","<githubpassword>","<organizationname>")
+    if deneme.organizationName is None:
+        exit(1)
+    else:
+        deneme.showProjects()
+        project = deneme.chooseProject("Project")
+        print ("----------------")
+        print (project)
 
 
 
