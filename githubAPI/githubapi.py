@@ -3,7 +3,8 @@ from github3 import login
 
 class github:
     def __init__(self):
-        print("test")
+        print("github init")
+
     def login(self,id,password):
         g = github3.login(id,password)
         return g

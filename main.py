@@ -1,10 +1,23 @@
 ########## IMPORT AREA #########
-from trelloAPI import trello
+from trelloAPI import trelloAPI
+from githubAPI import githubapi
+
+
+
 
 ############# MAIN AREA ########
 
-trello = trello.trello("asdasd","asdasd")
+
+
+github = githubapi.github()
+#github.main()
+
+
+
+trello = trelloAPI.trello("asdasd","asdasd")
 print(trello.createPano())
 print("test2")
-#githubapi.main()
+
+
+
 
