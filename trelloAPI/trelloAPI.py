@@ -10,20 +10,32 @@ class trello:
             token_secret='your-oauth-token-secret'
         )
 
-    def listPanos(self):
+    def listTrello(self):
         all_boards = self.client.list_boards()
         last_board = all_boards[-1]
-        print(last_board.name)
+        print("Boards ")
+        for board in all_boards:
+            print("Board Name :",board.name," Board ID",board.id)
+            for list in board.all_lists():
+                print("\t","ListName :",list.name ,"listID :",list.id)
+                for card in list.list_cards(""):
+                    print("\t\t","cardName :",card.name ,"cardID :",card.id)
+
+            #for card in board.all_cards():
+             #   print("\tCard Name :",card.name," Card ID",card.id)
 
 
+    def createBoard(self,board_name):
+        # return name of board
+        return self.client.add_board(board_name=board_name,source_board=None,organization_id=None,permission_level="private")
 
-
-    def createPano(self):
-        panoId="creaatePano"
-        return panoId
-
-    def removePano(self,panoID):
+    def removeBoard(self,panoID):
         print("")
 
-    def getPanos(self):
+
+
+    def listMems(self):
+        return self.client.list_organizations()
+
+    def getBoard(self):
         print("")

@@ -16,7 +16,8 @@ github = githubapi.github()
 
 
 trello = trelloAPI.trello(apiKey="6a4fe89f7b7bd584332a3cecf685d25b",TOKEN="0c54fb091e9723f7696bbb2a9cdd405741d7b67ad2deeb9d653afe009c2a61a9")
-print(trello.createPano())
+#print(trello.createBoard("bordAPI"))
+trello.listTrello()
 print("test2")
 
 
