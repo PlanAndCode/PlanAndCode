@@ -15,11 +15,13 @@ github = githubapi.github()
 
 
 
-trello = trelloAPI.trello(apiKey="6a4fe89f7b7bd584332a3cecf685d25b",TOKEN="0c54fb091e9723f7696bbb2a9cdd405741d7b67ad2deeb9d653afe009c2a61a9")
+trello = trelloAPI.trello(apiKey="6a4fe89f7b7bd584332a3cecf685d25b",TOKEN="31322c771f6bce7fc36f6cd066cc0ebfea8102c6cb2d7e59e6e0448f557709c4")
 #print(trello.createBoard("bordAPI"))
 trello.listTrello()
-print("test2")
+#trello.closeBoardName("bordAPI")
 
+#trello.addMember()
+print( trello.listMems())
 
 
 
