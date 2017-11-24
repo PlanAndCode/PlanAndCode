@@ -1,10 +1,10 @@
-import trelloAPI
+########## IMPORT AREA #########
 from trelloAPI import trello
-print("test2")
 
+############# MAIN AREA ########
 
 trello = trello.trello("asdasd","asdasd")
 print(trello.createPano())
-
-
+print("test2")
+#githubapi.main()
 
