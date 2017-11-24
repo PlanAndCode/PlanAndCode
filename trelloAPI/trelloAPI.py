@@ -75,7 +75,7 @@ class trello:
 
     ####### END LIST OPERATIIONS
 
-    ####### LIST OPERATIIONS
+    ####### CARD OPERATIIONS
     def getCard(self,cardID):
         self.client.get_card(card_id=cardID)
 
@@ -92,7 +92,7 @@ class trello:
         self.client.get_board("").get_list("").move(position=5)
 
 
-    ####### END LIST OPERATIIONS
+    ####### END CARD OPERATIIONS
 
     #######  MEMBER OPERATIIONS
 
