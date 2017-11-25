@@ -1,5 +1,6 @@
+
 """
-WSGI config for planandcode project.
+WSGI config for Django_planandcode project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +12,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "planandcode.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Django_planandcode.settings")
 
 application = get_wsgi_application()
