@@ -1,6 +1,5 @@
-import github3
-from github3 import login
 
+import github3
 
 class GHApi:
     def __init__(self, githubid, password, organizationname):
@@ -21,6 +20,9 @@ class GHApi:
             self.github.create_repo(projectName, projectURL, projectDescription, False, True, True, True, True)
         except github3.GitHubError:
             print("Please check name of Repository. There is an exist repository named " + projectName)
+
+    def deleteProject(self,projectName):
+        self.github.repository(self.github.user(),projectName).delete()
 
     def showProjects(self):
         for repo in self.github.iter_repos():
@@ -65,7 +67,6 @@ class GHApi:
             self.organization.create_team("Admin",repo_names,"admin")
         return admin
 
-
 def main():
     deneme = GHApi("<githubid>","<githubpassword>","<organizationname>")
     if deneme.organizationName is None:
@@ -75,6 +76,8 @@ def main():
         project = deneme.chooseProject("Project")
         print ("----------------")
         print (project)
+
+
 
 
 
