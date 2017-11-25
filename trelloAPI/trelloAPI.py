@@ -13,7 +13,7 @@ class trello:
             token_secret='your-oauth-token-secret'
         )
 
-    def listTrello(self):
+    def printTrello(self):
         all_boards = self.client.list_boards()
         last_board = all_boards[-1]
         print("Boards ")
@@ -32,29 +32,30 @@ class trello:
 
 ####### BOARD OPERATIIONS
 
+    def getBoard(self,boardID):
+        return self.client.get_board(board_id=boardID)
 
-    def getBoard(self,boardName):
+    def getBoardWithName(self,boardName):
         all_boards = self.client.list_boards()
         for board in all_boards:
             if board.name==boardName:
-                return board.id
+                return board
 
     def createBoard(self,boardName,organizationID=None):
-        # return name of board
         board = self.client.add_board(board_name=boardName,source_board=None,organization_id=organizationID,permission_level="private")
+        return board
 
-    def closeBoardName(self,boardName):
+    def closeBoardWithName(self,boardName):
         all_boards = self.client.list_boards()
         for board in all_boards:
             if board.name==boardName:
-                self.closeBoard(boardId=board.id)
+                return board.close()
 
     def closeBoard(self,boardId):
-        url = "https://api.trello.com/1/boards/"+boardId+"?closed=true&key="+self.apiKey+"&token="+self.token
-        querystring = {}
-        response = requests.request("PUT", url, params=querystring)
-        return response.text
+        return self.getBoard(boardID=boardId).close()
 
+    def boardList(self):
+        return self.client.list_boards()
     ####### END BOARD OPERATIIONS
 
 
@@ -63,11 +64,15 @@ class trello:
     def getList(self,listID,boardID):
         return self.client.get_board(board_id=boardID).get_list(list_id=listID)
 
-    def createList(self,listName,boardID,num):
+    def createList(self,listName,boardID,sira=None):
         board = self.client.get_board(boardID)
-        board.add_list(list,num)
+        addedlist= board.add_list(listName,sira)
+        return addedlist
 
-    def closeList(self,listID):
+    def closeList(self,listID,boardID):
+        return self.client.get_board(boardID).get_list(listID).close()
+
+    def closeJustListID(self,listID): # unsafe
         url = "https://api.trello.com/1/lists/"+listID+"?closed=true&key="+self.apiKey+"&token="+self.token
         querystring = {}
         response = requests.request("PUT", url, params=querystring)
@@ -76,8 +81,9 @@ class trello:
     ####### END LIST OPERATIIONS
 
     ####### CARD OPERATIIONS
+
     def getCard(self,cardID):
-        self.client.get_card(card_id=cardID)
+        return self.client.get_card(card_id=cardID)
 
     def createCard(self,boardID,listID,cardName):
         self.getList(boardID=boardID,listID=listID).add_card(name=cardName,labels=None,due="",source=None,position=None)
@@ -88,13 +94,13 @@ class trello:
         response = requests.request("PUT", url, params=querystring)
         return response.text
 
-    def moveCard(self,cardID,sourceListID,desListID):
-        self.client.get_board("").get_list("").move(position=5)
+    def moveCard(self,cardID,desListID):
+        self.getCard(cardID=cardID).change_list(list_id=desListID)
 
 
     ####### END CARD OPERATIIONS
 
-    #######  MEMBER OPERATIIONS
+    #######  TEAM MEMBER OPERATIIONS
 
     def addMember(self,boardID,memberID):
         board = self.client.get_board(board_id=boardID)
@@ -102,5 +108,15 @@ class trello:
 
     def listMems(self):
         return self.client.list_organizations()
+
+    def createOrganization(self,organizationName):
+        url = "https://api.trello.com/1/organizations?displayName="+organizationName+"&desc="+organizationName+"&key="+self.apiKey+"&token="+self.token
+        querystring = {}
+        response = requests.request("POST", url, params=querystring)
+        organizationID=str.split(response.text,",")[0].split("\"")[3]
+        return organizationID
+
+
+
 
     ####### END MEMBER OPERATIIONS
