@@ -22,8 +22,8 @@ class GHApi:
             print("Please check name of Repository. There is an exist repository named " + projectName)
 
             
-    def deleteProject(self,username,projectName):
-        self.github.repository(username,projectName).delete()
+    def deleteProject(self,projectName):
+        self.github.repository(self.github.user(),projectName).delete()
         
 
     def showProjects(self):
