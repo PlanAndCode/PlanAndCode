@@ -14,7 +14,11 @@ class GHApi:
                 self.admin = self.getAdminTeam()
         except github3.GitHubError:
             print ("Please check GitHubID and/or GitHubPassword!")
-
+    
+    
+    ################################################################
+    #            PROJECT OPERATIONS                                #
+    ################################################################
     def createNewProject(self, projectName, projectURL, projectDescription):
         try:
             self.github.create_repo(projectName, projectURL, projectDescription, False, True, True, True, True)
@@ -39,7 +43,10 @@ class GHApi:
 
     def currentProject(self, project):
         print (project)
-
+    
+    ##################################################################
+    #                       MEMBER OPERATIONS                        #
+    ##################################################################
     def addMemberToOrganization(self, memberID):
         self.admin.invite(memberID)
         for repo in self.github.iter_repos():
@@ -68,6 +75,10 @@ class GHApi:
             repo_names=['None']
             self.organization.create_team("Admin",repo_names,"admin")
         return admin
+    
+    def listMembers(self,username,projectname):
+        for memb in self.github.repository(username,projectname).iter_collaborators():
+            print memb
 
 def main():
     deneme = GHApi("<githubid>","<githubpassword>","<organizationname>")
@@ -76,6 +87,7 @@ def main():
     else:
         deneme.showProjects()
         project = deneme.chooseProject("Project")
+        deneme.listMembers("PlanAndCode","PlanAndCode")
         print ("----------------")
         print (project)
 
