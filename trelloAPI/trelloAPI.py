@@ -93,6 +93,11 @@ class trello:
         querystring = {}
         response = requests.request("PUT", url, params=querystring)
         return response.text
+    
+    def addMemberToCard(self,cardID,memberID):
+        url = "https://api.trello.com/1/cards/" + cardID + "/" + memberID
+        response = requests.request("POST", url)
+        return response.text
 
     def moveCard(self,cardID,desListID):
         self.getCard(cardID=cardID).change_list(list_id=desListID)
