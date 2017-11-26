@@ -21,8 +21,10 @@ class GHApi:
         except github3.GitHubError:
             print("Please check name of Repository. There is an exist repository named " + projectName)
 
-    def deleteProject(self,projectName):
-        self.github.repository(self.github.user(),projectName).delete()
+            
+    def deleteProject(self,username,projectName):
+        self.github.repository(username,projectName).delete()
+        
 
     def showProjects(self):
         for repo in self.github.iter_repos():
