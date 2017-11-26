@@ -2,20 +2,15 @@
 from trelloAPI import trelloAPI
 from githubAPI import githubapi
 
+from trello import TrelloClient
 
 
 
 ############# MAIN AREA ########
 
-
-
-#github = githubapi.github()
-#github.main()
-
-
-
-trello = trelloAPI.trello(apiKey="6a4fe89f7b7bd584332a3cecf685d25b",TOKEN="31322c771f6bce7fc36f6cd066cc0ebfea8102c6cb2d7e59e6e0448f557709c4")
-"""
+def main():
+    trello = trelloAPI.trello(apiKey="6a4fe89f7b7bd584332a3cecf685d25b",
+                              TOKEN="31322c771f6bce7fc36f6cd066cc0ebfea8102c6cb2d7e59e6e0448f557709c4")
 
 # Trello Projects
 boardList= trello.boardList()
@@ -49,38 +44,14 @@ print(coding.list_cards())
 #trello.printTrello()
 #trello.closeBoardName("bordAPI")
 
-"""
+#trello.addMember()
 
-# organization üyeleri sadece pano görebilir
-# eğer panoya aynı üyeler eklenirse pano üzerinde yetki sahibi olabilirler
-organizationID = trello.createOrganization("apiTestTeam2")
+    organizationID = trello.createOrganization("apiTestTeam")
+    print(organizationID)
 
-print(organizationID)
-
-
-# permission normal : sadece pano görebilir
-# permission admin : extra üye ekle çıkar, pano kapat
-print(trello.addOrganizationMember(organizationID,"aykocayko@gmail.com","admin"))
-print(trello.addOrganizationMember(organizationID,"my_kurt@hotmail.com","admin"))
-print(trello.getOrganization(organizationID).get_members())
+    print(trello.listMems())
 
 
-# org team seviyesinde görülebilir pano yaratır
-createdBoard=trello.createBoard("TestBoard",organizationID,"org")
-print(createdBoard)
-#trello.printTrello()
-#trello.closeBoardName("bordAPI")
+if __name__ == '__main__':
+    main()
 
-# board üzerinde kimsenin yetkisi yok
-print(createdBoard.get_members())
-
-# board üzerinde herkese yetki verelim
-organizationMembers = trello.getOrganization(organizationID).get_members()
-# add org Members to board
-organizationMembers.pop(-1)
-for mem in organizationMembers:
-    createdBoard.add_member(mem)
-
-
-trello.closeBoard(createdBoard.id)
-trello.removeOrganization(organizationID)
