@@ -16,14 +16,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from post.views import home_view
-from post.views import home_view2
+from post.views import plan
+from post.views import code
 
 urlpatterns = [
 	#url(r'^home2/',home_view2)
     url(r'^admin/', admin.site.urls),
-    url(r'^$',home_view),
-    url(r'^$',home_view2)
+    url(r'^$',plan),
+    url(r'^$',code)
 
     
 ]
