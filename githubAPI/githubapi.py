@@ -27,7 +27,11 @@ class GHApi:
 
             
     def deleteProject(self,projectName):
-        self.github.repository(self.github.user(),projectName).delete()
+        project = self.github.repository(self.github.user(),projectName).delete()
+        if project is None:
+            print ("There is no project named " + projectName + "\nPlease select from these projects:")
+            self.showProjects()
+        return project
         
 
     def showProjects(self):
@@ -79,7 +83,12 @@ class GHApi:
     def listMembers(self,username,projectname):
         for memb in self.github.repository(username,projectname).iter_collaborators():
             print memb
-
+            
+            
+    def listAllActivities(self,username,projectname):
+        for activity in self.github.repository(username, projectname).iter_commits():
+            print activity
+            
 def main():
     deneme = GHApi("<githubid>","<githubpassword>","<organizationname>")
     if deneme.organizationName is None:
@@ -88,6 +97,7 @@ def main():
         deneme.showProjects()
         project = deneme.chooseProject("Project")
         deneme.listMembers("PlanAndCode","PlanAndCode")
+        deneme.listActivity("PlanAndCode","PlanAndCode")
         print ("----------------")
         print (project)
 
