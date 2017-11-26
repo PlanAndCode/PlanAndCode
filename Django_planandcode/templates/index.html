@@ -12,9 +12,13 @@
    </div>
 	<div class="header">
 
-      <a href="{% url 'plan' %}">Clic here</a><br><br><br>
+       <a href="{% url 'plan' %}">Linking</a><br><br><br>
 
-      <a href="/plan" class="dark" style="cursor: pointer;">some text</a>
+	 <a href="/plan" class="dark" style="cursor: pointer;">Another version of linking</a><br><br>
+
+        <form action="{% url 'plan' %}">
+        <input type="submit" value="Projects">
+        </form>
 
 
    </div>
