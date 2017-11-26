@@ -1,6 +1,7 @@
 
 from trello import TrelloClient
 import requests
+import json
 
 class trello:
     def __init__(self,apiKey,TOKEN):
@@ -11,7 +12,9 @@ class trello:
             api_secret='your-secret',
             token=TOKEN,
             token_secret='your-oauth-token-secret'
+
         )
+
 
     def printTrello(self):
         all_boards = self.client.list_boards()
@@ -25,12 +28,12 @@ class trello:
                 for card in list.list_cards(""):
                     print("\t\t","cardName :",card.name ,"cardID :",card.id)
 
-            #for card in board.all_cards():
-             #   print("\tCard Name :",card.name," Card ID",card.id)
+                    #for card in board.all_cards():
+                    #   print("\tCard Name :",card.name," Card ID",card.id)
 
 
 
-####### BOARD OPERATIIONS
+                ####### BOARD OPERATIONS
 
     def getBoard(self,boardID):
         return self.client.get_board(board_id=boardID)
@@ -41,8 +44,8 @@ class trello:
             if board.name==boardName:
                 return board
 
-    def createBoard(self,boardName,organizationID=None):
-        board = self.client.add_board(board_name=boardName,source_board=None,organization_id=organizationID,permission_level="private")
+    def createBoard(self,boardName,organizationID=None,permission_level="private"):
+        board = self.client.add_board(board_name=boardName,source_board=None,organization_id=organizationID,permission_level=permission_level)
         return board
 
     def closeBoardWithName(self,boardName):
@@ -56,10 +59,10 @@ class trello:
 
     def boardList(self):
         return self.client.list_boards()
-    ####### END BOARD OPERATIIONS
+    ####### END BOARD OPERATIONS
 
 
-    ####### LIST OPERATIIONS
+    ####### LIST OPERATIONS
 
     def getList(self,listID,boardID):
         return self.client.get_board(board_id=boardID).get_list(list_id=listID)
@@ -78,9 +81,9 @@ class trello:
         response = requests.request("PUT", url, params=querystring)
         return response.text
 
-    ####### END LIST OPERATIIONS
+    ####### END LIST OPERATIONS
 
-    ####### CARD OPERATIIONS
+    ####### CARD OPERATIONS
 
     def getCard(self,cardID):
         return self.client.get_card(card_id=cardID)
@@ -94,24 +97,30 @@ class trello:
         response = requests.request("PUT", url, params=querystring)
         return response.text
 
-    def addMemberToCard(self,cardID,memberID):
-        url = "https://api.trello.com/1/cards/" + cardID + "/" + memberID
-        response = requests.request("POST", url)
-        return response.text
-
     def moveCard(self,cardID,desListID):
         self.getCard(cardID=cardID).change_list(list_id=desListID)
 
 
-    ####### END CARD OPERATIIONS
+    ####### END CARD OPERATIONS
 
-    #######  TEAM MEMBER OPERATIIONS
+    #######  TEAM MEMBER OPERATIONS
 
-    def addMember(self,boardID,memberID):
+    def addMemberBoard(self,boardID,memberID):
         board = self.client.get_board(board_id=boardID)
         board.add_member(memberID)
 
-    def listMems(self):
+
+
+
+
+    # ORGANIZATION OPERATIONS
+
+    def getOrganization(self,organizationID):
+        return self.client.get_organization(organizationID)
+
+
+    def listOrganizations(self):
+        self.client.list_organizations()
         return self.client.list_organizations()
 
     def createOrganization(self,organizationName):
@@ -122,6 +131,28 @@ class trello:
         return organizationID
 
 
+    def addOrganizationMember(self,organizationID,mail,memberType="normal",fullName="member"):
+        configuredMail=str.replace(mail,"@","%40")
+        url = "https://api.trello.com/1/organizations/"+organizationID+"/members?email="+configuredMail+"&fullName="+fullName+"&type="+memberType+"&key="+self.apiKey+"&token="+self.token
+        querystring = {}
+        response = requests.request("PUT", url, params=querystring)
+
+        data = (json.loads(response.text))
+        memberID = (data["memberships"][-1]["idMember"])
+        return memberID
+
+    def removeOrganizationMember(self,organizationID,memberID):
+        url = "https://api.trello.com/1/organizations/"+organizationID+"/members/"+memberID+"?key="+self.apiKey+"&token="+self.token
+        querystring = {}
+        response = requests.request("DELETE", url, params=querystring)
+        return response.text
+
+    def removeOrganization(self,organizationID):
+        url = "https://api.trello.com/1/organizations/"+organizationID+"?key="+self.apiKey+"&token="+self.token
+        querystring = {}
+        response = requests.request("DELETE", url, params=querystring)
+        return response.text
 
 
-    ####### END MEMBER OPERATIIONS
+
+        ####### END MEMBER OPERATIONS
