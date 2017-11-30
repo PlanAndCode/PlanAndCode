@@ -4,8 +4,8 @@ import github3
 class GitHubAPI:
     def __init__(self, github_id, password, organization_name):
         try:
-            self.organization = self.github.organization(organization_name)
             self.github = github3.login(github_id,password)
+            self.organization = self.github.organization(organization_name)
             if self.organization is None:
                 print("There is no organization named:  " + organization_name +
                       "\nPlease create in your Github Account!")
@@ -179,4 +179,4 @@ def interface():
 
 
 
-
+interface()
