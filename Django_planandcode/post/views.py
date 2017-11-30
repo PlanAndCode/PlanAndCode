@@ -1,13 +1,23 @@
-from django.shortcuts import render,HttpResponse
-from django.http import *
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.core.urlresolvers import reverse
+from .githubAPI import *
+from django.template.loader import get_template
+from django.http import HttpResponse
+import datetime
 
 
-def homepage(request):
-    return render(request, 'index.html')
+def index(request):
+    global deneme
+    if (request.method == "POST"):
+        get_text = request.POST["textfield"]
+        get_text2 = request.POST["textfield2"]
 
-def plan(request):
-    return render(request, 'plan.html')
+        deneme = GitHubAPI(get_text, get_text2, "PlanAndCode")
 
+    return render(request, 'index.html', {})
+
+def page2(request):
+     t = None
+     if (request.method == "POST2"):
+        t = deneme.show_projects()
+
+     return render(request, 'page2.html', {'show': t})
