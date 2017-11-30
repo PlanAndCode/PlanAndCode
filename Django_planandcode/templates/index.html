@@ -2,25 +2,31 @@
 </head>
 <body>
 
-
-    <div class="container" style="width:95%">
-    <center>
-       <div class="col-md-1 center-block text-center" style="font-size: xx-large">
+        <div class="container" style="width:95%">
+        <center>
+        <div class="col-md-1 center-block text-center" style="font-size: xx-large">
         PLAN AND CODE
-      </div>
-    </center>
-   </div>
-	<div class="header">
-
-       <a href="{% url 'plan' %}">Linking</a><br><br><br>
-
-	 <a href="/plan" class="dark" style="cursor: pointer;">Another version of linking</a><br><br>
-
-        <form action="{% url 'plan' %}">
-        <input type="submit" value="Projects">
-        </form>
+        </div>
+        </center>
+        </div>
 
 
-   </div>
+       <form method='POST' action='.'>{% csrf_token %}
+     <label><b>Username</b></label>
+
+       <input name='textfield' type='uname' ><br>
+       <label><b>Password</b></label>
+       <input name='textfield2' type='psw' ><br><br>
+       <input type='submit' value='Submit'>
+       </form>
+
+
+
+        <form method='POST2' action="{% url 'page2' %}">
+        <input type="submit" value="Show Project">
+         </form>
+
+
+
 </body>
-</html> 
+</html>
