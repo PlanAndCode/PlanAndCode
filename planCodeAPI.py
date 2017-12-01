@@ -12,16 +12,42 @@ class planCodeAPI:
         if self.github.new_project(projectName, projectName, projectName):
             self.trello.createBoard(boardName=projectName)
 
-
     def showProjects(self):
-        self.github.show_projects()
+        return self.github.show_projects()
 
     def chooseProject(self,projectName):
         self.github.choose_project(projectName)
         self.trello.getBoardWithName(projectName)
 
-pc=planCodeAPI()
-pc.trello.clearBoards()
+    def deleteProject(self):
+        # We must verify if user really wants to delete a project!
+        self.github.delete_project()
+        # trello delete board
 
-pc.createProject("testProject5")
-pc.showProjects()
+    def showCommits(self):
+        return self.github.show_project()
+
+    # show board, lists, cards
+
+    def addMemberGitHub(self,member_name):
+        self.github.add_member(member_name)
+
+    #add member trello
+
+    def deleteMemberGitHub(self,member_name):
+        self.github.delete_member(member_name)
+
+    #delete_member Trello
+
+    def showMembers(self):
+        return_members = []
+        return_members.append(self.github.list_members())
+        # return_members.append(trello members)
+        return return_members # 2 boyutlu array return_members[0] github memberları return_members[1] trello memberları
+
+
+pc=planCodeAPI()
+print(pc.showProjects())
+pc.chooseProject("PlanAndCode")
+print(pc.showCommits())
+print(pc.showMembers())

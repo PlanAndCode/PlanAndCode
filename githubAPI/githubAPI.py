@@ -39,17 +39,21 @@ class GitHubAPI:
                 self.show_projects()
             else:
                 print(self.project)
-                self.list_activity()
+                return self.list_activity()
         except github3.GitHubError:
             print("This repository might be empty!\n")
 
     def list_activity(self):
+        return_activities = []
         for activity in self.project.iter_commits():
-            print(activity)
+            return_activities.append(activity)
+        return return_activities
 
     def show_projects(self):
+        return_repos = []
         for repo in self.organization.iter_repos():
-            print(repo)
+            return_repos.append(repo.name)
+        return return_repos
 
     def delete_project(self):
         if self.project is None:
@@ -65,18 +69,10 @@ class GitHubAPI:
     ##################################################################
     def add_member(self, member_name):
         self.admin.invite(member_name)
-        for repo in self.organization.iter_repos():
-            repo.add_collaborator(member_name)
 
     def delete_member(self, member_name):
         self.admin.remove_member(member_name)
-        for repo in self.organization.iter_repos():
-            repo.remove_collaborator(member_name)
 
-    def update_members(self):
-        for repo in self.organization.iter_repos():
-            for member in self.organization.iter_members():
-                repo.add_collaborator(member)
 
     def admin_team(self):
         teams = self.organization.iter_teams();
@@ -90,8 +86,10 @@ class GitHubAPI:
         return admin
 
     def list_members(self):
+        return_members = []
         for member in self.organization.iter_members():
-            print(member)
+            return_members.append(str(member))
+        return return_members
 
 
 def exit_prompt():
@@ -178,6 +176,7 @@ def interface():
                     print("Wrong input")
         login_screen = exit_prompt()
     print("System is closing...")
+
 
 if __name__ == '__main__':
     interface()
