@@ -1,3 +1,4 @@
+<head>
 <title>Title</title>
 </head>
 <body>
@@ -11,22 +12,21 @@
         </div>
 
 
-       <form method='POST' action='.'>{% csrf_token %}
-     <label><b>Username</b></label>
+       <form method='POST' action="{% url 'page2' %}">{% csrf_token %}
+	   <label><b>  Username </b></label>
 
        <input name='textfield' type='uname' ><br>
        <label><b>Password</b></label>
-       <input name='textfield2' type='psw' ><br><br>
-       <input type='submit' value='Submit'>
+       <input name='textfield2' type='psw' ><br>
+           <label><b>Organization</b></label>
+           <input name='textfield3' type='org' ><br><br>
+
+           <input type='submit' value='Submit'>
        </form>
 
-
-
-        <form method='POST2' action="{% url 'page2' %}">
-        <input type="submit" value="Show Project">
-         </form>
 
 
 
 </body>
 </html>
+
