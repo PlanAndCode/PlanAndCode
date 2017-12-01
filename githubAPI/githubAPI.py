@@ -23,8 +23,10 @@ class GitHubAPI:
         try:
             self.github.create_repo(name, url, description, False, True, True, True, True)
             self.project = self.github.repository(self.github.user(), name)
+            return True
         except github3.GitHubError:
             print("Please check name of Project. There is an exist project named " + name)
+            return False
 
     def choose_project(self, name):
         self.project = self.github.repository(self.github.user(), name)
@@ -179,4 +181,3 @@ def interface():
 
 
 
-interface()

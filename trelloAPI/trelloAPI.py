@@ -12,8 +12,8 @@ class trello:
             api_secret='your-secret',
             token=TOKEN,
             token_secret='your-oauth-token-secret'
-
         )
+        self.board=None
 
 
     def printTrello(self):
@@ -36,17 +36,29 @@ class trello:
                 ####### BOARD OPERATIONS
 
     def getBoard(self,boardID):
-        return self.client.get_board(board_id=boardID)
+        self.board=self.client.get_board(board_id=boardID)
+        return self.board
 
     def getBoardWithName(self,boardName):
         all_boards = self.client.list_boards()
         for board in all_boards:
             if board.name==boardName:
+                self.board=board
                 return board
+    def clearBoards(self):
+        for board in self.client.list_boards():
+            board.close()
 
     def createBoard(self,boardName,organizationID=None,permission_level="private"):
-        board = self.client.add_board(board_name=boardName,source_board=None,organization_id=organizationID,permission_level=permission_level)
-        return board
+        self.board = self.client.add_board(board_name=boardName,source_board=None,organization_id=organizationID,permission_level=permission_level)
+        for list in self.board.get_lists(None):
+            self.board.get_list(list.id).close()
+        self.createList("To Do:",self.board.id,1)
+        self.createList("Doing:",self.board.id,2)
+        self.createList("Build:",self.board.id,3)
+        self.createList("Test:",self.board.id,4)
+        self.createList("Deploy:",self.board.id,5)
+        return self.board
 
     def closeBoardWithName(self,boardName):
         all_boards = self.client.list_boards()
@@ -73,7 +85,6 @@ class trello:
         return addedlist
 
     def closeList(self,listID,boardID):
-        print()
         return self.client.get_board(boardID).get_list(listID).close()
 
     def closeJustListID(self,listID): # unsafe

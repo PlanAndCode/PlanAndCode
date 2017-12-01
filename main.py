@@ -2,6 +2,8 @@
 
 
 
+from trelloAPI import trelloAPI
+
 
 ############# MAIN AREA ########
 
@@ -87,3 +89,5 @@ def mainTrello():
     trello.closeBoard(createdBoard.id)
 
     trello.removeOrganization(organizationID)
+
+mainTrello()
