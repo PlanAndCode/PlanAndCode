@@ -73,6 +73,7 @@ class trello:
         return addedlist
 
     def closeList(self,listID,boardID):
+        print()
         return self.client.get_board(boardID).get_list(listID).close()
 
     def closeJustListID(self,listID): # unsafe

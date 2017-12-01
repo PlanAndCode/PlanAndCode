@@ -1,6 +1,4 @@
 ########## IMPORT AREA #########
-from trelloAPI import trelloAPI
-from githubAPI import githubapi
 
 
 
