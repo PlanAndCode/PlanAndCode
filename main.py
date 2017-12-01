@@ -67,7 +67,7 @@ def mainTrello():
     print(trello.addOrganizationMember(organizationID,"my_kurt@hotmail.com","admin"))
     print(trello.getOrganization(organizationID).get_members())
 
-
+    print()
     # org team seviyesinde görülebilir pano yaratır
     createdBoard=trello.createBoard("TestBoard",organizationID,"org")
     print(createdBoard)
