@@ -60,7 +60,7 @@ def mainTrello():
 
     print(organizationID)
 
-
+    print()
     # permission normal : sadece pano görebilir
     # permission admin : extra üye ekle çıkar, pano kapat
     print(trello.addOrganizationMember(organizationID,"aykocayko@gmail.com","admin"))
