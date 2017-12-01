@@ -6,6 +6,7 @@ class GitHubAPI:
         try:
             self.github = github3.login(github_id,password)
             self.organization = self.github.organization(organization_name)
+            self.organization_name = organization_name
             if self.organization is None:
                 print("There is no organization named:  " + organization_name +
                       "\nPlease create in your Github Account!")
@@ -21,37 +22,34 @@ class GitHubAPI:
     ################################################################
     def new_project(self, name, url, description):
         try:
-            self.github.create_repo(name, url, description, False, True, True, True, True)
-            self.project = self.github.repository(self.github.user(), name)
-            return True
+            self.project = self.organization.create_repo(name,description,url,False,True,True,True,self.admin.id,True)
         except github3.GitHubError:
             print("Please check name of Project. There is an exist project named " + name)
-            return False
 
     def choose_project(self, name):
-        self.project = self.github.repository(self.github.user(), name)
+        self.project = self.github.repository(self.organization_name,name)
         if self.project is None:
             print("There is no project named " + name + "\nPlease select from these projects:")
             self.show_projects()
 
     def show_project(self):
-        if self.project is None:
-            print("Please select from these projects to work on it")
-            self.show_projects()
-        else:
-            print(self.project)
-            self.list_activity()
+        try:
+            if self.project is None:
+                print("Please select from these projects to work on it")
+                self.show_projects()
+            else:
+                print(self.project)
+                self.list_activity()
+        except github3.GitHubError:
+            print("This repository might be empty!\n")
 
     def list_activity(self):
         for activity in self.project.iter_commits():
             print(activity)
 
     def show_projects(self):
-        str=[]
-        for repo in self.github.iter_repos():
-            str.append(repo)
+        for repo in self.organization.iter_repos():
             print(repo)
-        return str
 
     def delete_project(self):
         if self.project is None:
@@ -67,16 +65,16 @@ class GitHubAPI:
     ##################################################################
     def add_member(self, member_name):
         self.admin.invite(member_name)
-        for repo in self.github.iter_repos():
+        for repo in self.organization.iter_repos():
             repo.add_collaborator(member_name)
 
     def delete_member(self, member_name):
         self.admin.remove_member(member_name)
-        for repo in self.github.iter_repos():
+        for repo in self.organization.iter_repos():
             repo.remove_collaborator(member_name)
 
     def update_members(self):
-        for repo in self.github.iter_repos():
+        for repo in self.organization.iter_repos():
             for member in self.organization.iter_members():
                 repo.add_collaborator(member)
 
@@ -179,8 +177,7 @@ def interface():
                 else:
                     print("Wrong input")
         login_screen = exit_prompt()
-
     print("System is closing...")
 
-
-
+if __name__ == '__main__':
+    interface()
