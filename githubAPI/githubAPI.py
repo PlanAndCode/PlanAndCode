@@ -47,8 +47,11 @@ class GitHubAPI:
             print(activity)
 
     def show_projects(self):
+        str=[]
         for repo in self.github.iter_repos():
+            str.append(repo)
             print(repo)
+        return str
 
     def delete_project(self):
         if self.project is None:
