@@ -1,7 +1,14 @@
+
+<head>
 <title>Title</title>
 </head>
 <body>
-FromVIEW: {{ show }}
-<br>
+{% block content %}
+        <b> Projects</b><br>
+        <textarea rows="10" cols="100">
+        {{ show }}
+        </textarea>
+
+{% endblock %}
 </body>
-</html> 
+</html>
