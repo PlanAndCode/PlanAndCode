@@ -1,5 +1,6 @@
 from trelloAPI import trelloAPI
 
+
 class Trello:
     def __init__(self,apiKey,token):
         self.trelloAPI = trelloAPI.trello(apiKey,token)
@@ -9,15 +10,22 @@ class Trello:
     def createOrganization(self,organizationName):
         self.organization = self.trelloAPI.createOrganization(organizationName)
 
-    def selectOrganization(self,organizationName):
+    def listOrganizations(self):
+        return self.listOrganizations()
+
+
+    def selectOrganizationByID(self,organizationID):
+        return self.trelloAPI.getOrganization(organizationID=organizationID)
+
+    def selectOrganizationByName(self,organizationName):
         # return Organization or None
         self.organization= self.trelloAPI.getOrganizationByName(organizationName=organizationName)
         if self.organization==None:
             return False
         return True
 
-    def createBoard(self,boardName):
-        self.board = self.trelloAPI.createBoard(boardName)
+    def createBoard(self,boardName,organizationID=None):
+        self.board = self.trelloAPI.createBoard(boardName,organizationID)
         return True
 
     def selectBoard(self,boardName):
@@ -51,6 +59,13 @@ class Trello:
             self.board.add_member(self.trelloAPI.client.get_member(memberID))
             return True
         return False
+
+    def deleteMember(self,memberID):
+        self.trelloAPI.removeOrganizationMember(self.organization.id,memberID)
+
+    def showMembers(self):
+        if(self.board!=None):
+            return self.board.get_members()
 
     def getToDoList(self):
         if( self.board!=None):
