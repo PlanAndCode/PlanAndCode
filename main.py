@@ -82,8 +82,10 @@ def mainTrello():
 
     print(organizationMembers.pop(-1).username)
     #organizationMembers.remove(organizationMembers[-1])
-    for mem in organizationMembers:
-        createdBoard.add_member(mem)
+
+    #for mem in organizationMembers:
+     #   createdBoard.add_member(mem)
+
 
 
     trello.closeBoard(createdBoard.id)

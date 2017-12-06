@@ -4,22 +4,22 @@ from githubAPI import githubAPI
 class planCodeAPI:
     def __init__(self, github_id="burakfurkanaksahin", password="software2017",organization_name="PlanAndCode",
                  trelloApiKey="6a4fe89f7b7bd584332a3cecf685d25b",trelloTOKEN="31322c771f6bce7fc36f6cd066cc0ebfea8102c6cb2d7e59e6e0448f557709c4"):
-        self.trello = Trello.Trello(apiKey=trelloApiKey,TOKEN=trelloTOKEN)
+        self.trello = Trello.Trello(trelloApiKey,trelloTOKEN)
         self.github = githubAPI.GitHubAPI(github_id, password, organization_name)
 
     def trelloOrganizationList(self):
-        self.trello.listOrganizations()
+        return self.trello.listOrganizations()
 
     def createTrelloOrganization(self,organizationName):
-        self.trello.createOrganization(organizationName)
+        return self.trello.createOrganization(organizationName)
 
     def selectTrelloOrganization(self,organizationName):
-        self.trello.selectOrganizationByName(organizationName)
+        return self.trello.selectOrganizationByName(organizationName)
 
     def createProject(self,projectName):
-            if self.github.new_project(projectName, projectName, projectName):
-                if(self.trello.organization!=None):
-                    self.trello.createBoard(boardName=projectName,organizationID=self.trello.organization.id)
+            #if self.github.new_project(projectName, projectName, projectName):
+                if(self.trello.organizationID!=None):
+                    self.trello.createBoard(boardName=projectName)
                 else:
                     print("Organizasyon Seciniz !")
 
@@ -28,7 +28,7 @@ class planCodeAPI:
 
     def chooseProject(self,projectName):
         self.github.choose_project(projectName)
-        self.trello.getBoardByName(projectName)
+        self.trello.selectBoard(projectName)
 
     def deleteProject(self):
         # We must verify if user really wants to delete a project!
@@ -41,6 +41,8 @@ class planCodeAPI:
 
 
     # show board, lists, cards
+    def showBoards(self):
+        return self.trello.showBoards()
 
     def getTrelloToDoList(self):
         return self.trello.getToDoList()
@@ -104,3 +106,16 @@ print(pc.showProjects())
 pc.chooseProject("PlanAndCode")
 print(pc.showCommits())
 print(pc.showMembers())
+
+# Once Trello organization secilmeli veye oluşturulmalı
+pc.createTrelloOrganization("testOrganization")
+pc.createProject("testAPIcode2")
+print()
+print(
+pc.trelloOrganizationList(),"\n",
+pc.showBoards(),"\n",
+pc.showTrelloMembers(),
+pc.addMemberTrello("my_kurt@hotmail.com"))
+
+#pc.trello.addMemberByID("apitest6")
+

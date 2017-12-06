@@ -5,13 +5,13 @@ class Trello:
     def __init__(self,apiKey,token):
         self.trelloAPI = trelloAPI.trello(apiKey,token)
         self.board=None
-        self.organization=None
+        self.organizationID=None
 
     def createOrganization(self,organizationName):
-        self.organization = self.trelloAPI.createOrganization(organizationName)
+        self.organizationID = self.trelloAPI.createOrganization(organizationName)
 
     def listOrganizations(self):
-        return self.listOrganizations()
+        return self.trelloAPI.listOrganizations()
 
 
     def selectOrganizationByID(self,organizationID):
@@ -19,13 +19,13 @@ class Trello:
 
     def selectOrganizationByName(self,organizationName):
         # return Organization or None
-        self.organization= self.trelloAPI.getOrganizationByName(organizationName=organizationName)
-        if self.organization==None:
+        self.organizationID = self.trelloAPI.getOrganizationByName(organizationName=organizationName).id
+        if self.organizationID==None:
             return False
         return True
 
-    def createBoard(self,boardName,organizationID=None):
-        self.board = self.trelloAPI.createBoard(boardName,organizationID)
+    def createBoard(self,boardName):
+        self.board = self.trelloAPI.createBoard(boardName,self.organizationID)
         return True
 
     def selectBoard(self,boardName):
@@ -44,11 +44,13 @@ class Trello:
             return True;
         return False;
 
+
+
     def addMemberByMail(self,memberMail):
-        if(self.organization==None or self.board==None):
+        if(self.organizationID==None or self.board==None):
             return False # select board and organization
-        self.trelloAPI.addOrganizationMember(self.organization.id,memberMail,"admin")
-        organizationMembers = self.trelloAPI.getOrganization(self.organization.id).get_members()
+        self.trelloAPI.addOrganizationMember(self.organizationID,memberMail,"admin")
+        organizationMembers = self.trelloAPI.getOrganization(self.organizationID).get_members()
         organizationMembers.pop(-1).username
         for mem in organizationMembers:
             self.board.add_member(mem)
@@ -61,11 +63,22 @@ class Trello:
         return False
 
     def deleteMember(self,memberID):
-        self.trelloAPI.removeOrganizationMember(self.organization.id,memberID)
+        self.trelloAPI.removeOrganizationMember(self.organizationID,memberID)
+
+
+
+
 
     def showMembers(self):
         if(self.board!=None):
             return self.board.get_members()
+
+
+    def showBoardActions(self):
+        return self.trelloAPI.getBoard(self.board.id).actions
+
+
+
 
     def getToDoList(self):
         if( self.board!=None):
