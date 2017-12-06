@@ -117,5 +117,4 @@ pc.showBoards(),"\n",
 pc.showTrelloMembers(),
 pc.addMemberTrello("my_kurt@hotmail.com"))
 
-#pc.trello.addMemberByID("apitest6")
 
