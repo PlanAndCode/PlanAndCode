@@ -13,7 +13,6 @@ class trello:
             token=TOKEN,
             token_secret='your-oauth-token-secret'
         )
-        self.board=None
 
 
     def printTrello(self):
@@ -30,21 +29,21 @@ class trello:
 
                     #for card in board.all_cards():
                     #   print("\tCard Name :",card.name," Card ID",card.id)
-
-
-
                 ####### BOARD OPERATIONS
 
     def getBoard(self,boardID):
         self.board=self.client.get_board(board_id=boardID)
         return self.board
 
-    def getBoardWithName(self,boardName):
+    def getBoardByName(self,boardName):
         all_boards = self.client.list_boards()
         for board in all_boards:
             if board.name==boardName:
                 self.board=board
                 return board
+        return None;
+
+    # close all boards
     def clearBoards(self):
         for board in self.client.list_boards():
             board.close()
@@ -60,14 +59,25 @@ class trello:
         self.createList("Deploy:",self.board.id,5)
         return self.board
 
-    def closeBoardWithName(self,boardName):
-        all_boards = self.client.list_boards()
-        for board in all_boards:
-            if board.name==boardName:
-                return board.close()
+    def closeBoardByName(self,boardName=None):
+        if boardName!=None:
+            all_boards = self.client.list_boards()
+            for board in all_boards:
+                if board.name==boardName:
+                    return board.close()
+        else:
+            if self.board!=None:
+                self.closeBoard(self.board.id);
 
-    def closeBoard(self,boardId):
-        return self.getBoard(boardID=boardId).close()
+
+    def closeBoard(self,boardId=None):
+        if boardId!=None:
+            return self.getBoard(boardID=boardId).close()
+        else:
+            if self.board!=None:
+                self.board.close();
+            else:
+                return None;
 
     def boardList(self):
         return self.client.list_boards()
@@ -77,6 +87,9 @@ class trello:
     ####### LIST OPERATIONS
 
     def getList(self,listID,boardID):
+        return self.client.get_board(board_id=boardID).get_list(list_id=listID)
+
+    def getListByName(self,listID,boardID):
         return self.client.get_board(board_id=boardID).get_list(list_id=listID)
 
     def createList(self,listName,boardID,sira=None):
@@ -125,15 +138,21 @@ class trello:
 
 
 
+
     # ORGANIZATION OPERATIONS
 
     def getOrganization(self,organizationID):
         return self.client.get_organization(organizationID)
 
+    def getOrganizationByName(self,organizationName):
+        for organization in  self.listOrganizations():
+            if organization.name=="":
+                return organization
+        return None;
 
     def listOrganizations(self):
         self.client.list_organizations()
-        return self.client.list_organizations()
+        return self.client.list_organizations();
 
     def createOrganization(self,organizationName):
         url = "https://api.trello.com/1/organizations?displayName="+organizationName+"&desc="+organizationName+"&key="+self.apiKey+"&token="+self.token

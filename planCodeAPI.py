@@ -1,4 +1,3 @@
-
 from trelloAPI import trelloAPI
 from githubAPI import githubAPI
 
@@ -17,15 +16,17 @@ class planCodeAPI:
 
     def chooseProject(self,projectName):
         self.github.choose_project(projectName)
-        self.trello.getBoardWithName(projectName)
+        self.trello.getBoardByName(projectName)
 
     def deleteProject(self):
         # We must verify if user really wants to delete a project!
         self.github.delete_project()
-        # trello delete board
+        self.trello.closeBoard()
+
 
     def showCommits(self):
         return self.github.show_project()
+
 
     # show board, lists, cards
 
@@ -33,6 +34,7 @@ class planCodeAPI:
         self.github.add_member(member_name)
 
     #add member trello
+
 
     def deleteMemberGitHub(self,member_name):
         self.github.delete_member(member_name)
