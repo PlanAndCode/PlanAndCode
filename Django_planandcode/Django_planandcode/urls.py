@@ -22,7 +22,8 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     url(r'^$', views.index, name="homepage"),
-    url(r'^page2/$', views.page2, name="page2")
+    url(r'^page2/$', views.page2, name="page2"),
+    url(r'^page3/$', views.page3, name="page3")
 
 
     
