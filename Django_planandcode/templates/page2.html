@@ -5,10 +5,36 @@
 <body>
 {% block content %}
         <b> Projects</b><br>
-        <textarea rows="10" cols="100">
-        {{ show }}
-        </textarea>
 
+
+
+
+        <textarea rows="10" cols="30">
+                {{ show }}
+        </textarea> <br>
+
+       <form method = 'POST' action ="{% url 'page2' %}" >{% csrf_token %}
+            <input name = 'projeAdd' type ='text'  placeholder="Project Name" />
+            <input type = 'submit' value ='Add' >
+        </form>
+
+
+       <form method = 'POST' action ="{% url 'page2' %}" >{% csrf_token %}
+            <input name = 'projeDelete' type ='text'  placeholder="Project Name" />
+            <input type = 'submit' value ='Delete' >
+        </form>
+
+
+
+<a href="{% url 'page3' %}">Next</a>
 {% endblock %}
 </body>
 </html>
+
+
+
+
+
+
+
+
