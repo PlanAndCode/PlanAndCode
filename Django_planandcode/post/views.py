@@ -1,5 +1,4 @@
 
-
 from django.shortcuts import render
 from django import *
 
@@ -66,7 +65,7 @@ def page2(request):
 
     projects = pc.showProjects()
     for i in range(0, len(projects)):
-        str2 += projects[i] + "\n"
+        str2 += str(i+1) +"." + projects[i] + "\n"
     if delete:
         str2.replace(get_text,'')
     return render(request, 'page2.html',  {'show' : str2})
@@ -79,5 +78,5 @@ def page3(request):
     boards =pc.showBoards()
     print (boards)
     for i in range(0, len(members[0])):
-        str3 += members[0][i] + "\n"
+        str3 += str(i+1) + "." + members[0][i] + "\n"
     return render(request, 'page3.html',  {'show2' : str3})
