@@ -4,10 +4,8 @@
 </head>
 <body>
 {% block content %}
+        <body style="background-color:powderblue;">
         <b> Projects</b><br>
-
-
-
 
         <textarea rows="10" cols="30">
                 {{ show }}
@@ -24,9 +22,13 @@
             <input type = 'submit' value ='Delete' >
         </form>
 
+        <br>
 
+<form action="{% url 'page3' %}" >
+    <input type="submit" value="Next Page" />
 
-<a href="{% url 'page3' %}">Next</a>
+</form>
+
 {% endblock %}
 </body>
 </html>
