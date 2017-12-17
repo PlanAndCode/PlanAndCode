@@ -1,4 +1,5 @@
 
+
 from django.shortcuts import render
 from django import *
 
@@ -73,5 +74,10 @@ def page2(request):
 
 def page3(request):
     global pc
-    print(pc.showMembers())
-    return render(request, 'page3.html',  {'show2' : pc.showMembers()})
+    str3="\n"
+    members = pc.showMembers()
+    boards =pc.showBoards()
+    print (boards)
+    for i in range(0, len(members[0])):
+        str3 += members[0][i] + "\n"
+    return render(request, 'page3.html',  {'show2' : str3})
