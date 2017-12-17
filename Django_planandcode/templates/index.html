@@ -21,15 +21,15 @@ input[type=text] {
         </div>
 
        <form method = 'POST' action ="{% url 'page2' %}" >{% csrf_token %}
-            <label for="id">Username</label>
+            <label for="uname">Username</label>
             <input name = 'textfield' type ='text'/>
-            <label for="id">Password</label>
+            <label for="pass">Password</label>
             <input name = 'textfield2' type ='text'/>
-            <label for="id">Organization Name</label>
+            <label for="org">Organization Name</label>
             <input name = 'textfield3' type ='text' />
-            <label for="id">API Key</label>
+            <label for="apik">API Key</label>
             <input name = 'textfield4' type ='text'/> 
-            <label for="id">Token Key</label>
+            <label for="tok">Token Key</label>
             <input name = 'textfield5' type ='text'/>
             <input type = 'submit' value ='submit' >
         </form>
