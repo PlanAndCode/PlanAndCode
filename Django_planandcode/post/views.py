@@ -73,10 +73,19 @@ def page2(request):
 
 def page3(request):
     global pc
-    str3="\n"
+    strMember="\n"
     members = pc.showMembers()
-    boards =pc.showBoards()
     print (boards)
     for i in range(0, len(members[0])):
-        str3 += str(i+1) + "." + members[0][i] + "\n"
-    return render(request, 'page3.html',  {'show2' : str3})
+        strMember += str(i+1) + "." + members[0][i] + "\n"
+    return render(request, 'page3.html',  {'showMember' : strMember })
+
+
+def showTrello(request):
+    global pc
+    toDo=pc.getTrelloToDoList()
+    doing=pc.getTrelloDoingList()
+    build=pc.getTrelloBuildList()
+    test=pc.getTrelloTestList()
+    deploy=pc.getTrelloDeployList()
+    return render(request,"ShowTrello.html",{'toDo': toDo , 'doing' : doing, 'build' : build, 'test' :test, 'deploy': deploy})
