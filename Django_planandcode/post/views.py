@@ -75,7 +75,7 @@ def page3(request):
     global pc
     strMember="\n"
     members = pc.showMembers()
-    print (boards)
+    print (members)
     for i in range(0, len(members[0])):
         strMember += str(i+1) + "." + members[0][i] + "\n"
     return render(request, 'page3.html',  {'showMember' : strMember })
