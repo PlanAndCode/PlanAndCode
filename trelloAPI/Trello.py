@@ -124,6 +124,8 @@ class Trello:
     def createCard(self,boardID,listID,cardName):
         self.trelloAPI.createCard(boardID,listID,cardName)
 
+    def addCommendToCard(self,cardID,commendText):
+        self.trelloAPI.addCommendToCard(cardID,commendText)
     
     def moveCard(self,cardID,destListID):
         self.trelloAPI.moveCard(cardID=cardID,desListID=destListID)

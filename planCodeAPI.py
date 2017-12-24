@@ -95,8 +95,12 @@ class planCodeAPI:
         return self.trello.showMembers()
 
 
-    def createCard(self):
-        return self.trello.
+    def createCard(self,boardID,listID,cardName):
+        self.trello.createCard(boardID,listID,cardName)
+
+    def addCommendToCard(self,cardID,commendText):
+        self.trello.addCommendToCard(cardID,commendText)
+
     def showMembers(self):
         return_members = []
         return_members.append(self.github.list_members())
