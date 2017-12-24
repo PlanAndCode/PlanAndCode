@@ -121,6 +121,9 @@ class Trello:
         if( self.board!=None):
             return self.board.get_lists(None)[4].list_cards()
 
+    def createCard(self,boardID,listID,cardName):
+        self.trelloAPI.createCard(boardID,listID,cardName)
+
     
     def moveCard(self,cardID,destListID):
         self.trelloAPI.moveCard(cardID=cardID,desListID=destListID)

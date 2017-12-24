@@ -94,6 +94,9 @@ class planCodeAPI:
     def showTrelloMembers(self):
         return self.trello.showMembers()
 
+
+    def createCard(self):
+        return self.trello.
     def showMembers(self):
         return_members = []
         return_members.append(self.github.list_members())

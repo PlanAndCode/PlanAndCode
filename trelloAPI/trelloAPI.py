@@ -183,7 +183,15 @@ class trello:
         querystring = {}
         response = requests.request("DELETE", url, params=querystring)
         return response.text
+    def addCommendToCard(self,cardID,commendText):
+        url = "https://api.trello.com/1/cards/"+cardID+"/actions/comments?text="+commendText+"&key="+self.apiKey+"&token="+self.token
+        querystring = {}
+        response = requests.request("POST", url, params=querystring)
+        return response.text
 
 
+tr = trello("6a4fe89f7b7bd584332a3cecf685d25b","31322c771f6bce7fc36f6cd066cc0ebfea8102c6cb2d7e59e6e0448f557709c4")
 
+tr.addCommendToCard(cardID="5a327ed513d867d7a8ea9ba1",commendText="burak")
+tr.clearBoards()
         ####### END MEMBER OPERATIONS
