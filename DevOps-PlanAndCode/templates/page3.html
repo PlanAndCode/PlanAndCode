@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<body style="background-color:powderblue;">
+<b>Github Members</b><br>
+ <textarea rows="15" cols="30">
+                {{ showMember }}
+        </textarea>
+
+<br>
+       <form method = 'POST' action ="{% url 'page3' %}" >{% csrf_token %}
+            <input name = 'memAdd' type ='text'  placeholder="Member Name" />
+            <input type = 'submit' value ='memAdd' >
+        </form>
+
+
+</body>
+</html>

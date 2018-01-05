@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<body style="background-color:powderblue;">
+            <b>ToDo</b>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<b>Doing </b>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<b>Build </b>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<b>Test</b>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<b>Deploy</b>
+<br>
+ <textarea rows="15" cols="30">
+{{ toDo}}
+ </textarea>
+
+
+ <textarea rows="15" cols="30">
+{{ doing}}
+ </textarea>
+
+ <textarea rows="15" cols="30">
+{{ build}}
+ </textarea>
+
+ <textarea rows="15" cols="30">
+{{ test}}
+ </textarea>
+
+ <textarea rows="15" cols="30">
+{{ deploy}}
+ </textarea>
+
+<form method = 'POST' action ="{% url 'showTrello' %}" >{% csrf_token %}
+            <input name = 'cardAdd' width='50' type ='text'  placeholder="Card Name" />
+            <input type = 'submit' value ='cardAdd' >
+        </form>
+
+
+<form method = 'POST' action ="{% url 'showTrello' %}" >{% csrf_token %}
+            <input name = 'cardIDDoing' width='50' type ='text'  placeholder="Card ID" />
+            <input type = 'submit' value ='cardMoveDoing' >
+        </form>
+
+
+<form method = 'POST' action ="{% url 'showTrello' %}" >{% csrf_token %}
+            <input name = 'cardIDBuild' width='50' type ='text'  placeholder="Card ID" />
+            <input type = 'submit' value ='cardMoveBuild' >
+        </form>
+
+<form method = 'POST' action ="{% url 'showTrello' %}" >{% csrf_token %}
+            <input name = 'cardIDDelete' width='50' type ='text'  placeholder="Card ID" />
+            <input type = 'submit' value ='cardDelete' >
+        </form>
+
+<form method = 'POST' action ="{% url 'page2' %}" >{% csrf_token %}
+            <input name = 'chooseProject' width='50' type ='hidden'  placeholder="Project Name"  value="{{ ProjectName }}"/>
+            <input type = 'submit' value ='Turn back to project section' >
+        </form>
+
+</body>
+</html>

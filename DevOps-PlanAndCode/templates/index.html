@@ -1,0 +1,40 @@
+<head>
+<title>Plan And Coding</title>
+</head>
+<style> 
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    background-color: #f8f8f8;
+}
+</style>
+<body>
+
+        <body style="background-color:powderblue;">
+        <div class="container" style="width:95%">
+        <center>
+        <div class="col-md-1 center-block text-center" style="font-size: xx-large">
+        PLAN AND CODE
+        </div>
+        </center>
+        </div>
+
+       <form method = 'POST' action ="{% url 'page2' %}" >{% csrf_token %}
+            <label for="uname">Username</label>
+            <input name = 'textfield' type ='text'/>
+            <label for="pass">Password</label>
+            <input name = 'textfield2' type ='text'/>
+            <label for="org">Organization Name</label>
+            <input name = 'textfield3' type ='text' />
+            <label for="apik">API Key</label>
+            <input name = 'textfield4' type ='text'/> 
+            <label for="tok">Token Key</label>
+            <input name = 'textfield5' type ='text'/>
+            <input type = 'submit' value ='submit' >
+        </form>
+
+</body>
+</html>
+
