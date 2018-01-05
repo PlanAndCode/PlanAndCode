@@ -11,6 +11,12 @@
                 {{ showMember }}
         </textarea>
 
+<br>
+       <form method = 'POST' action ="{% url 'page3' %}" >{% csrf_token %}
+            <input name = 'memAdd' type ='text'  placeholder="Member Name" />
+            <input type = 'submit' value ='memAdd' >
+        </form>
+
 
 </body>
 </html>
