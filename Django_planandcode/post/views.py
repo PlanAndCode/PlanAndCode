@@ -33,8 +33,16 @@ def page2(request):
     str2 = "\n"
     try:
         get_text=request.POST["projeAdd"]
+        pc.createTrelloOrganization(get_text)
         pc.createProject(get_text)
         print(get_text)
+    except:
+        print('')
+
+
+    try:
+        get_text=request.POST["chooseProject"]
+        pc.chooseProject(get_text)
     except:
         print('')
 
@@ -48,7 +56,6 @@ def page2(request):
         print(get_text)
     except:
         print('')
-
 
 
     try:
@@ -78,14 +85,43 @@ def page3(request):
     print (members)
     for i in range(0, len(members[0])):
         strMember += str(i+1) + "." + members[0][i] + "\n"
+
+
+    try:
+        get_text=request.POST["memAdd"]
+        pc.addMemberGitHub(get_text)
+        print(get_text)
+    except:
+        print('')
+
     return render(request, 'page3.html',  {'showMember' : strMember })
 
 
 def showTrello(request):
     global pc
-    toDo=pc.getTrelloToDoList()
-    doing=pc.getTrelloDoingList()
-    build=pc.getTrelloBuildList()
-    test=pc.getTrelloTestList()
-    deploy=pc.getTrelloDeployList()
-    return render(request,"ShowTrello.html",{'toDo': toDo , 'doing' : doing, 'build' : build, 'test' :test, 'deploy': deploy})
+    #print(pc.getTrelloDoingList().id)
+    #print(pc.getTrelloBuildList().id)
+    doingID=''
+    buildID=''
+
+
+    try:
+        get_text = request.POST["chooseProject"]
+        pc.chooseProject(get_text)
+    except:
+        print('')
+
+    try:
+        get_text=request.POST["cardAdd"]
+        pc.createCard(pc.getTrelloToDoList().id,get_text)
+        print(get_text)
+    except:
+        print('')
+
+    toDo = pc.getTrelloToDoCards()
+    doing = pc.getTrelloDoingCards()
+    build = pc.getTrelloBuildCards()
+    test = pc.getTrelloTestCards()
+    deploy = pc.getTrelloDeployCards()
+
+    return render(request,"ShowTrello.html",{'doingID' :  doingID, 'buildID' :  buildID,'toDo': toDo , 'doing' : doing, 'build' : build, 'test' :test, 'deploy': deploy})
