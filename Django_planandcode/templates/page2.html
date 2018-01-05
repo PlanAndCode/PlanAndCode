@@ -11,6 +11,11 @@
                 {{ show }}
         </textarea> <br>
 
+       <form method = 'POST' action ="{% url 'showTrello' %}" >{% csrf_token %}
+            <input name = 'chooseProject' type ='text'  placeholder="Project Name" />
+            <input type = 'submit' value ='chooseProject' >
+        </form>
+
        <form method = 'POST' action ="{% url 'page2' %}" >{% csrf_token %}
             <input name = 'projeAdd' type ='text'  placeholder="Project Name" />
             <input type = 'submit' value ='Add' >
@@ -22,17 +27,15 @@
             <input type = 'submit' value ='Delete' >
         </form>
 
+
+
         <br>
 
 <form action="{% url 'page3' %}" >
     <input type="submit" value="Next Page" />
 
 </form>
-<br>
-<form action="{% url 'showTrello' %}" >
-    <input type="submit" value="showTrello" />
 
-</form>
 {% endblock %}
 </body>
 </html>
